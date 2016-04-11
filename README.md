@@ -10,10 +10,12 @@ This script provides a basis for utilizing the JIRA REST API to grab basic total
 * Update the basic parameters needed (see below)
 * Save
 * Return to the Sheet and fill in some details, like:
+
 Sprint name | Sprint ID | Fix Version 
-Sprint 1 | 100 | 0.1.0
-Sprint 2 | 101 | 0.2.0
-Sprint 3 | 102 | 1.0.0
+--- | --- | ---
+Sprint 1 | 100 | 0.1.0 
+Sprint 2 | 101 | 0.2.0 
+Sprint 3 | 102 | 1.0.0 
 
 You'll reference the second and/or third columns for the queries you'll be passing.
 
