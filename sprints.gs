@@ -42,7 +42,8 @@ function calljira(query,sprint) {
     var parameters = {
     method : "get",
     accept : "application/json",
-      headers: {"Authorization: Basic ": Utilities.base64Encode( jirauser + ":" + jiraauth)}
+      headers: {"Authorization" : "Basic " + Utilities.base64Encode( jirauser + ":" + jiraauth )}
+      
       // 
       // Authorization: Basic ZnJlZDpmcmVk" -H "Content-Type: application/json"
    };
