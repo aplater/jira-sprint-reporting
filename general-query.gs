@@ -1,5 +1,6 @@
 /*
  * JIRA REST API Query - grab basic total responses for a JQL Query
+ * https://github.com/chrisurban/jira-sprint-reporting
  *
  * Set up some basic parameters we need for connecting with JIRA REST API
  * Fill in your account email, password,
