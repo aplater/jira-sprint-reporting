@@ -70,4 +70,9 @@ Using variations of these queries will allow you to build some stats that you
 can do further math with, like percentage of reopened/total stories, etc.
 
 
+## Ticket specific fields
+Use the ticket-field function as a starting point, the examples provided return
+values from JIRA for Summary, Status and Description. Depending on your setup
+you may want to query a JIRA endpoint to figure out the machine name for a 
+specific field, especially if it was added as a custom field. (See last example)
 
