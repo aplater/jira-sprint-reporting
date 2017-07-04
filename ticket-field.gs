@@ -26,58 +26,49 @@ var jiraurl  = "JIRA_URL";
  * in right-hand cells
  *
  * Examples:
- * =ticketStatus(A2) returns the ticket status name (e.g. "Open")
+ * =ticketDetails(A2,"status") returns the ticket status name (e.g. "Open")
  *
  */
 
-function ticketStatus(ticket) {
+function ticketDetails(ticket,attribute) {
     var parameters = {
     method : "get",
     accept : "application/json",
       headers: {"Authorization" : "Basic " + Utilities.base64Encode( jirauser + ":" + jiraauth )}
-      
    };
    
   var jira_url = "https://" + jiraurl + "/rest/api/2/issue/" + encodeURIComponent(ticket) ;
-  
   var text = UrlFetchApp.fetch(jira_url, parameters).getContentText();
   var data = JSON.parse(text);
-  
-  
-  return data.fields.status.name;
-  
-}
-function ticketDescription(ticket) {
-    var parameters = {
-    method : "get",
-    accept : "application/json",
-      headers: {"Authorization" : "Basic " + Utilities.base64Encode( jirauser + ":" + jiraauth )}
-      
-  };
-   
-  var jira_url = "https://" + jiraurl + "/rest/api/2/issue/" + encodeURIComponent(ticket) ;
-  
-  var text = UrlFetchApp.fetch(jira_url, parameters).getContentText();
-  var data = JSON.parse(text);
-  
-  
-  return data.fields.summary;
-}
-function ticketUserStory(ticket) {
-    var parameters = {
-    method : "get",
-    accept : "application/json",
-      headers: {"Authorization" : "Basic " + Utilities.base64Encode( jirauser + ":" + jiraauth )}
-      
-   };
-   
-  var jira_url = "https://" + jiraurl + "/rest/api/2/issue/" + encodeURIComponent(ticket) ;
-  
-  var text = UrlFetchApp.fetch(jira_url, parameters).getContentText();
-  var data = JSON.parse(text);
-  
-  
-  return data.fields.customfield_10200;
-  // good example for having a reason to query a ticket to get a list of
-  // field names. For custom fields, you'll have fields named like this one.
+  switch (attribute) {
+    case "status":
+      return data.fields.status.name;
+      break;
+    case "summary":
+      return data.fields.summary;
+      break;
+    case "userstory":
+      return data.fields.customfield_10202;
+      break;
+    case "description":
+      return data.fields.description;
+      break;
+    case "priority":
+      return data.fields.priority.name;
+      break;
+    case "resolution":
+      return data.fields.resolution.name;
+      break;
+    case "assignee":
+      return data.fields.assignee.name;
+      break;
+    case "storypoints":
+      return data.fields.customfield_10004;
+      break;
+    default:
+      return "No attribute provided.";
+  }
+  // You'll need to check your JIRA instance and adjust custom field names to use yours.
+  // use the issue endpoint at /rest/api/2/issue/[ticket] to check
+
 }
