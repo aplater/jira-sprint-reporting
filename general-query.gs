@@ -27,9 +27,9 @@ var jiraurl  = "project.atlassian.net";
  * in right-hand cells
  *
  * Examples:
- * =calljira("project=PROJECT AND type=Story AND status = ""Open"" )
+ * =issueCount("project=PROJECT AND type=Story AND status = ""Open"" )
  *
- * =calljira("project=PROJECT AND type = Story and status changed to reopened from QA )
+ * =issueCount("project=PROJECT AND type = Story and status changed to reopened from QA )
  * will return only stories that were reopened from the 'QA' state in your workflow, 
  * across all sprints 
  *
@@ -38,7 +38,7 @@ var jiraurl  = "project.atlassian.net";
  *
  */
 
-function calljira(query) {
+function issueCount(query) {
     var parameters = {
     method : "get",
     accept : "application/json",
