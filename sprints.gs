@@ -27,33 +27,43 @@ var jiraurl  = "project.atlassian.net";
  * in right-hand cells
  *
  * Examples:
- * =calljira("project=PROJECT AND type=Story AND sprint = ",$B1)
- * where column B has your Sprint IDs
+ * =getepic(CONCATENATE("project = ",$A3," AND labels = ",$B$1))
+ * where column A has your project ID, and cell B1 has a specific label to search for
  *
- * =calljira("project=PROJECT AND type = Story and status changed to reopened from QA AND sprint = ",$B1)
- * will return only stories that were reopened from the 'QA' state in your workflow, 
- * for that sprint only
+ * =gettotaltime(CONCATENATE("project = ",$A3," AND ""Epic Link"" = ",$B3))/3600
+ * where column A has your project ID, and the next cell as an Epic key, will iterate 
+ * through all tickets in that epic and return total time logged.
  *
  * Using variations of these queries will allow you to build some stats that you 
  * can do further math with, like percentage of reopened/total stories, etc.
  *
  */
 
-function calljira(query,sprint) {
+function getepic(query) {
     var parameters = {
     method : "get",
     accept : "application/json",
-      headers: {"Authorization" : "Basic " + Utilities.base64Encode( jirauser + ":" + jiraauth )}
-      
-      // 
-      // Authorization: Basic ZnJlZDpmcmVk" -H "Content-Type: application/json"
-   };
-   
-  var jira_url = "https://" + jiraurl + "/rest/api/2/search?jql=" + encodeURIComponent(query) + sprint;
-  
+      headers: {"Authorization" : "Basic " + Utilities.base64Encode( jirauser + ":" + jiraauth )} 
+   };   
+  var jira_url = "https://" + jiraurl + "/rest/api/2/search?jql=" + encodeURIComponent(query) ;
   var text = UrlFetchApp.fetch(jira_url, parameters).getContentText();
   var data = JSON.parse(text);
-  
-  return data.total;
-  
+  //var issue = JSON.parse(data);
+  return data.issues[0].key;
+}
+
+function gettotaltime(query) {
+    var parameters = {
+    method : "get",
+    accept : "application/json",
+      headers: {"Authorization" : "Basic " + Utilities.base64Encode( jirauser + ":" + jiraauth )} 
+   };   
+  var jira_url = "https://" + jiraurl + "/rest/api/2/search?jql=" + encodeURIComponent(query) ;
+  var text = UrlFetchApp.fetch(jira_url, parameters).getContentText();
+  var data = JSON.parse(text);
+  var sum = 0;
+  for (x in data.issues) {
+    sum += data.issues[x].fields.timespent;
+  }
+  return sum;
 }
