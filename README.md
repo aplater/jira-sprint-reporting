@@ -21,6 +21,8 @@ Sprint 2 | 101 | 0.2.0
 Sprint 3 | 102 | 1.0.0 
 
 In this example, you'll reference the second and/or third columns for the queries you'll be passing.
+In another column/cell, enter in a formula to submit a query or issue key to the specific
+.gs file you're using. Detailed examples are below.
 
 ## Update basic parameters
 
@@ -50,28 +52,31 @@ in right-hand cells. This way, you concatenate the query from sheet-based fields
 pass the query via the function, and a result is returned.
 
 Examples:
+
 If you use _general-query.gs_
 ```
-=calljira("project=PROJECT AND type=Story AND sprint = ",$B1)
+=issueCount("project=PROJECT AND type=Story AND sprint = ",$B1)
 ```
-where column B has your Sprint IDs
+where column B has your Sprint IDs will return the number of tickets that are type Story
 
 ```
-=calljira("project=PROJECT AND type = Story and status changed to reopened from QA AND sprint = ",$B1)
+=issueCount("project=PROJECT AND type = Story and status changed to reopened from QA AND sprint = ",$B1)
 ```
-will return only stories that were reopened from the 'QA' state in your workflow, 
-for that sprint only
+will return the number of tickets that are only stories, that were reopened from the 'QA' state in your workflow, 
+for that sprint only.
 
 ```
-=calljira("project=PROJECT AND priority=""Critical"" AND type=Bug AND status=""Open"" ")
+=issueCount("project=PROJECT AND priority=""Critical"" AND type=Bug AND status=""Open"" ")
 ```
-will return all Open Bugs that are marked with priority Critical, across all Sprints
+will return a count of all Open Bugs that are marked with priority Critical, across all Sprints
+
 
 If you use _sprints.gs_
 ```
 =gettotaltime(CONCATENATE("project = ",$E3," AND "Component" = ",$F3))/3600
 ```
 will generate a query to return all issues in a project (shortcode in column E). with component (in column F), iterate through those issues and total time logged in hours
+
 
 If you use _ticket-field.gs_
 ```
@@ -94,5 +99,19 @@ your instance, lint the JSON returned for a valid issue at ```/rest/api/2/issue/
 and check for the corresponding custom field for "User Story." Other often used
 custom fields may include Story Points, Impediments, user-based fields like Developer, or
 ticket details like Testing Steps.
+
+## Other worthwhile notes ##
+Suggestions for debugging if you run into problems:
+* If you concatenate your queries in Google Sheets, I find that it's good practice to set
+aside a cell to display the actual concatenated result of the query I thought I was
+passing.
+* Make sure you've got the right username, auth and URL for your instance.
+* Some custom fields in JIRA are more than one word, or are reserved for use in queries. 
+In these cases, you need to enclose them in quotes; concatenating them in a Sheet means
+you need to remember to escape the quotes. Example:
+```
+=gettotaltime(CONCATENATE("project = ",$E3," AND ""Epic Link"" = ",$F3))/3600
+```
+
 
 
