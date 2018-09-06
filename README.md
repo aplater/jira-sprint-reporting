@@ -5,6 +5,8 @@ These scripts provides a basis for utilizing the JIRA REST API to grab basic tot
 * _general-query.gs_ is good for general reporting of an issue count for a specific query, as only JQL is passed
 * _scripts.gs_ has functions to query a specific issue for a field, such as summary, assignee or status
 * _sprints.gs_ has functions to get the epic from a query, and to total the logged time worked for all issues from a query
+as well as ticket-specific functions from _scripts.gs_ and issue count from _general-query.gs_. **This is likely the only
+file you need to download and copy.**
 
 ## TL;DR Setup
 * Create a new Google Sheets spreadsheet
@@ -23,6 +25,14 @@ Sprint 3 | 102 | 1.0.0
 In this example, you'll reference the second and/or third columns for the queries you'll be passing.
 In another column/cell, enter in a formula to submit a query or issue key to the specific
 .gs file you're using. Detailed examples are below.
+
+Issue| Summary | Status 
+--- | --- | ---
+ABC-123 | =ticketDetails(A3,"summary") | =ticketDetails(A3,"status") 
+ABC-125 | =ticketDetails(A4,"summary") | =ticketDetails(A4,"status")
+ABC-200 | =ticketDetails(A5,"summary") | =ticketDetails(A5,"status") 
+
+In this example, the sheet is used to report details of specific tickets. 
 
 ## Update basic parameters
 
